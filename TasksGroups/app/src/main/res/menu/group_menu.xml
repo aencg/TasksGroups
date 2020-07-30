@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/group_info_option_menu"
+        android:orderInCategory="100"
+        android:title="@string/group_info_menu_title"
+        app:showAsAction="never"
+        android:visible="false"/>
+    <item
+        android:id="@+id/users_menu_option"
+        android:icon="@drawable/ic_users"
+        android:title= "@string/users"
+        app:showAsAction="ifRoom">
+    </item>
+    <item
+        android:id="@+id/files_option_menu"
+        android:icon="@drawable/ic_files"
+        android:title="@string/files"
+        app:showAsAction="ifRoom"/>
+
+
+            <item
+                android:id="@+id/show_group"
+                android:checkableBehavior="single"
+                android:orderInCategory="200"
+                android:title="@string/filter_groups"
+                android:visible="true"
+                app:showAsAction="never">
+                <menu>
+                    <group android:checkableBehavior="single"
+                    android:id="@+id/show_group_menu">
+                        <item
+                            android:id="@+id/show_all_option_menu"
+                            android:orderInCategory="200"
+                            android:title="@string/show_all_menu_title"
+                            app:showAsAction="never" />
+                        <item
+                            android:id="@+id/only_available_option_menu"
+                            android:orderInCategory="300"
+                            android:title="@string/only_available_menu_title"
+                            app:showAsAction="never" />
+                        <item
+                            android:id="@+id/only_assigned_option_menu"
+                            android:orderInCategory="400"
+                            android:title="@string/only_assigned_menu_title"
+                            app:showAsAction="never" />
+                        <item
+                            android:id="@+id/only_completed_option_menu"
+                            android:orderInCategory="500"
+                            android:title="@string/only_completed_menu_title"
+                            app:showAsAction="never" />
+                    </group>
+                </menu>
+            </item>
+
+            <item
+                android:id="@+id/order_by_menu"
+                android:checkableBehavior="single"
+                android:orderInCategory="600"
+                android:title="@string/order_by_menu_title"
+                app:showAsAction="never">
+                <menu>
+                    <group android:checkableBehavior="single"
+                        android:id="@+id/order_by_group"
+                        >
+                        <item
+                            android:id="@+id/priority_option_menu"
+                            android:orderInCategory="700"
+                            android:title="@string/priority_menu_title"
+                            app:showAsAction="never" />
+                        <item
+                            android:id="@+id/state_option_menu"
+                            android:orderInCategory="800"
+                            android:title="@string/state_menu_title"
+                            app:showAsAction="never" />
+                        <item
+                            android:id="@+id/id_option_menu"
+                            android:orderInCategory="900"
+                            android:title="@string/id_menu_title"
+                            app:showAsAction="never" />
+
+                    </group>
+
+                </menu>
+
+            </item>
+
+        </menu>

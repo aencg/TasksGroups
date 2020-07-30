@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.tasksgroups" >
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:requestLegacyExternalStorage="true"
+        android:grantUriPermissions="true"
+        >
+
+
+
+        <activity android:name=".ui.activities.FilesActivity" >
+        </activity>
+        <activity android:name=".ui.activities.UsersActivity" />
+
+        <receiver android:name=".widget.TaskGroupWidgetProvider" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/grouptask_widget_provider_info" />
+        </receiver>
+
+        <service android:name=".widget.TaskGroupWidgetService" />
+        <service
+            android:name=".widget.TaskListWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <activity android:name=".ui.activities.ConfigWidgetActivity" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.activities.UserProfileActivity" />
+        <activity
+            android:name=".ui.activities.NewGroupActivity"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity android:name=".ui.activities.GroupActivity" />
+        <activity android:name=".ui.activities.GroupSettingsActivity" />
+        <activity android:name=".ui.activities.NewTaskActivity" />
+        <activity
+            android:name=".ui.activities.UpdateTaskActivity"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity android:name=".ui.activities.GroupsActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

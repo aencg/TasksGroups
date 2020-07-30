@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primaryColor">#76ff03</color>
+    <color name="primaryLightColor">#b0ff57</color>
+    <color name="primaryDarkColor">#32cb00</color>
+    <color name="secondaryColor">#e91e63</color>
+    <color name="secondaryLightColor">#ff6090</color>
+    <color name="secondaryDarkColor">#b0003a</color>
+    <color name="primaryTextColor">#000000</color>
+    <color name="secondaryTextColor">#000000</color>
+
+    <color name="toast_color">#8CDF90</color>
+
+    <color name="round_button_color_variant">#6CCF70</color>
+    <color name="hint_text_grey">#bdbdbd</color>
+    <color name="name1">#A8F022</color>
+    <color name="name2">#7C6AA3</color>
+    <color name="name3">#DBD5F0</color>
+    <color name="windowBackground">#DBD5F0</color>
+    <color name="name4">#633CF0</color>
+    <color name="name5">#A30749</color>
+
+    <color name="button_text_color">@color/material_green_50</color>
+
+    <color name="background_spinner">#dcedc8</color>
+    <color name="material_green_50">#E8F5E9</color>
+    <color name="material_green_500">#4CAF50</color>
+    <color name="material_green_700">#388E3C</color>
+    <color name="material_green_a200">#69F0AE</color>
+    <color name="material_lime_a700">#AEEA00</color>
+    <color name="material_purple_a700">#AA00FF</color>
+</resources>

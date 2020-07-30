@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <FrameLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/b_delete_group"
+            android:id="@+id/scrollView"
+            android:layout_marginBottom="32dp">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_invitation_requests"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="@string/invitation_requests"
+                    android:textSize="16sp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/layout_requests"
+                    android:orientation="vertical"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@id/tv_invitation_requests"
+                    app:layout_constraintStart_toStartOf="parent" >
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/recycler_invitation_requests" />
+
+                    <TextView
+                        android:paddingVertical="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_invitation_requests_empty"
+                        android:text="@string/no_requests_left"
+                        android:gravity="center_horizontal"
+                        android:visibility="visible"
+                        android:backgroundTint="@color/hint_text_grey"
+                        android:background="@drawable/round_button"
+                        android:textSize="16sp"/>
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="16dp"
+                    android:id="@+id/tv_users"
+                    android:text="@string/users"
+                    app:layout_constraintTop_toBottomOf="@id/layout_requests"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:textSize="16sp"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_marginTop="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/recycler_current_users"
+                    app:layout_constraintTop_toBottomOf="@id/tv_users"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/ButtonTheme"
+            android:text="@string/return_string"
+            android:id="@+id/b_return"
+            app:layout_constraintTop_toTopOf="@id/b_delete_group"
+            android:layout_gravity="start|bottom"
+            android:textSize="16sp"
+            />
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/ButtonThemeSecondary"
+            android:id="@+id/b_delete_group"
+            android:text="@string/delete_group"
+            android:layout_gravity="end|bottom"
+            android:textSize="16sp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/tv_lost_connection"
+            android:gravity="center"
+            android:background="@color/material_green_50"
+            android:elevation="17dp"
+            android:textSize="16sp"
+            android:text="lost connection"/>
+
+    </FrameLayout>
+
+</layout>

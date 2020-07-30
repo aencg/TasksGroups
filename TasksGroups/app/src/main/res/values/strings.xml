@@ -1,0 +1,135 @@
+<resources>
+    <string name="app_name">TasksGroups</string>
+
+    <string name="new_task">New Task</string>
+    <string name="task_name">Task name:</string>
+    <string name="description_hint">Description</string>
+    <string name="description">Description:</string>
+    <string name="priority">Priority:</string>
+    <string name="assigned_users">Assigned Users:</string>
+    <string name="assign_users">Assign Users</string>
+    <string name="files">Files:</string>
+    <string name="cancel">Cancel</string>
+    <string name="create">Create</string>
+    <string name="group_name_hint">Group name</string>
+
+    <string name="created_by">Created by:</string>
+    <string name="state">Estate:</string>
+    <string name="updates">Updates:</string>
+    <string name="shared_files">Shared files:</string>
+    <string name="delete_task">Delete Task</string>
+    <string name="delete_group">Delete Group</string>
+    <string name="invitation_requests">Invitation Requests:</string>
+    <string name="users">Users:</string>
+    <string name="group_settings">Group Settings</string>
+    <string name="group_name">Group name:</string>
+    <string name="estate">Estate:</string>
+    <string name="delete_user">Delete Task</string>
+    <string name="tasksgroups">TasksGroups</string>
+    <string name="new_group">New Group</string>
+    <string name="update">Update</string>
+    <string name="return_string">Return</string>
+
+    <string name="fab_add_group_description">Add Group</string>
+
+    <string-array name="priority_array">
+        <item name="low">Low Priority</item>
+        <item name="medium">Medium Priority</item>
+        <item name="high">High Priority</item>
+    </string-array>
+
+    <string-array name="estate_array">
+        <item name="available">Available</item>
+        <item name="assigned">Assigned</item>
+        <item name="completed">Completed</item>
+    </string-array>
+
+    <string name="sign_out">Sign Out</string>
+
+    <string name="title_widget_activity">Configure Widget</string>
+    <string name="title_files_activity">Files</string>
+
+    <string name="same_name_file_overwrite">There is a file with the same name. Do you want to overwrite it?</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+    <string name="canceled">Canceled</string>
+    <string name="error_occurred">An error occurred</string>
+    <string name="file_added">File added</string>
+    <string name="are_sure_delete_file">Are you sure do you want to delete the file?</string>
+    <string name="file_deleted">File deleted</string>
+    <string name="group_activity_title">Group</string>
+    <string name="logged_successfull">You logged successfully</string>
+    <string name="group_settings_title">Group Settings</string>
+    <string name="are_sure_delete_task">Are you sure you want to delete the task?</string>
+    <string name="are_sure_delete_group">Are you sure you want to delete the group?</string>
+    <string name="group_deleted">Group deleted</string>
+    <string name="new_group_title">New Group</string>
+    <string name="group_name_must_not_empty">Group name must not be empty</string>
+    <string name="group_description_must_not_empty">Group description must not be empty</string>
+    <string name="group_created_successfully">Group created successfully</string>
+    <string name="error_occurred_try_later">An error occurred please try again later</string>
+    <string name="new_task_activity_title">New Task</string>
+    <string name="task_name_must_not_empty">Task name must not be empty</string>
+    <string name="task_description_must_not_empty">Task description must not be empty</string>
+    <string name="task_created_successfully">Task created successfully</string>
+    <string name="not_possible_load_groups">It\'s not possible to load the groups data</string>
+
+    <string name="update_task_activity_title">Update Task</string>
+    <string name="task_deleted_successfully">Task deleted successfully</string>
+    <string name="task_updated_successfully">Task updated successfully</string>
+    <string name="user_profile_activity_title">User Profile</string>
+    <string name="updated_successfully">Updated successfully</string>
+    <string name="profile_image_updated">Profile image updated</string>
+    <string name="users_activity_title">Users</string>
+    <string name="no_tasks_in_group">There aren\'t any task in the group</string>
+
+    <string name="group_info_menu_title">Group info</string>
+    <string name="show_all_menu_title">Show all</string>
+    <string name="only_available_menu_title">Only available</string>
+    <string name="only_assigned_menu_title">Only assigned</string>
+    <string name="only_completed_menu_title">Only completed</string>
+    <string name="order_by_menu_title">Order by</string>
+    <string name="priority_menu_title">Priority</string>
+    <string name="state_menu_title">State</string>
+    <string name="id_menu_title">Id</string>
+
+    <string name="download_context_menu_option">Download</string>
+    <string name="download_paused">Download paused</string>
+    <string name="confirm">Confirm</string>
+    <string name="admin">Admin</string>
+    <string name="change_profile_pic">Change profile pic</string>
+    <string name="border">border</string>
+    <string name="empty_groups">There aren\'t any group to show.</string>
+    <string name="empty_tasks">There aren\'t any task to show.</string>
+
+    <string name="no_requests_left">There aren\'t any request left</string>
+    <string name="empty_users">There aren\'t any users to show</string>
+    <string name="empty_files">There aren\'t any files to show</string>
+    <string name="user_profile">User profile</string>
+
+    <string name="logged_successfully">You logged in successfully</string>
+    <string name="delete">Delete</string>
+    <string name="user_name">User name:</string>
+    <string name="filter_groups">Filter groups</string>
+
+    <string name="upload_pending">There is a upload pending.</string>
+    <string name="long_click_for_options">Press long click to menu options</string>
+    <string name="selected_file_big">The selected file is too big</string>
+    <string name="ok">OK</string>
+    <string name="uploading">Uploading</string>
+    <string name="problem_during_upload">A problem happened during the upload.</string>
+    <string name="file_exists">The file already exists</string>
+    <string name="download_in_progress">Download in progress</string>
+    <string name="file_downloaded">File downloaded</string>
+    <string name="download_files_not_allowed">Download files isn\'t allowed</string>
+    <string name="storage_permission_required">The storage permission is required for this feature</string>
+    <string name="request_sended">Request sended to admin</string>
+    <string name="option_not_available_without_connection">This option is not available without connection</string>
+
+    <string name="need_connection">You need internet connection for this task</string>
+    <string name="select_profile_image">Select the profile image</string>
+    <string name="choose_file">Choose file</string>
+    <string name="user_created">User created</string>
+    <string name="upload_paused">Upload paused</string>
+    <string name="delete_context_menu_option">Delete option</string>
+</resources>

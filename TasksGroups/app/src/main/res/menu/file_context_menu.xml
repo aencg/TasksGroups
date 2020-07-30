@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/download_option"
+        android:title="@string/download_context_menu_option"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/delete_option"
+        android:title="@string/delete_context_menu_option"
+        app:showAsAction="never"/>
+</menu>
