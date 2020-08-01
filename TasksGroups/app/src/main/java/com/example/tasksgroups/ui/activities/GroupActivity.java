@@ -491,7 +491,7 @@ public class GroupActivity extends AppCompatActivity implements TaskAdapter.Task
                 //filter the tasks by priority
                     mSharedPreferences.edit().putInt("ORDER_BY"+mGroupId,R.id.id_option_menu).apply();
                     menuItem = mMenu.findItem(R.id.id_option_menu);
-                    mTasksAdapter.setComparator(TaskAdapter.COMPARE_STATE);
+                    mTasksAdapter.setComparator(TaskAdapter.COMPARE_ID);
                     menuItem.setChecked(true);
                     return true;
             default:
