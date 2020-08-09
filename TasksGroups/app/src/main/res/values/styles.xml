@@ -47,6 +47,10 @@
         <item name="android:textColor">@color/material_green_50</item>
     </style>
 
+    <style name="splash" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/background_splash</item>
+    </style>
+
 
     <style name="ButtonThemeSecondary" parent="AppTheme">
         <item name="android:background">@drawable/round_button_variant</item>

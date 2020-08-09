@@ -97,20 +97,17 @@ public class GroupSettingsActivity extends AppCompatActivity  {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mUsersRequestDatabaseReference = mFireBaseDatabase.getReference().child("requests").child(mGroupId);
         mCurrentUsersDatabaseReference = mFireBaseDatabase.getReference().child("usersGroup").child(mGroupId);;
-        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if(user != null){
-                    //user is signed in
-                    onSignedInInitialize();
-                }   else{
-                    //return to the previous activity
-                    Intent resultInt = new Intent();
-                    resultInt.putExtra("Result", RESULT_SIGN_OUT);
-                    setResult(RESULT_SIGN_OUT,resultInt);
-                    finish();
-                }
+        mAuthStateListener = firebaseAuth -> {
+            FirebaseUser user = firebaseAuth.getCurrentUser();
+            if(user != null){
+                //user is signed in
+                onSignedInInitialize();
+            }   else{
+                //return to the previous activity
+                Intent resultInt = new Intent();
+                resultInt.putExtra("Result", RESULT_SIGN_OUT);
+                setResult(RESULT_SIGN_OUT,resultInt);
+                finish();
             }
         };
         mConnectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
@@ -140,47 +137,41 @@ public class GroupSettingsActivity extends AppCompatActivity  {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         binding.recyclerInvitationRequests.setLayoutManager(linearLayoutManager);
         mUserRequestsAdapter = new UserGroupSettingsAdapter(
-                new UserGroupSettingsAdapter.UserListRecyclerviewClickInterface() {
-                    @Override
-                    public void onItemClicked(int position, String tag) {
-                        User user = mUserRequests.get(position);
-                        String userId = user.getId();
-                        Map<String, Object> childUpdates;
-                        switch(tag){
-                            case "delete":
-                                CustomToast.customToast(GroupSettingsActivity.this, R.string.delete, Toast.LENGTH_SHORT).show();
-                                childUpdates = new HashMap<>();
-                                childUpdates.put("/requests/" + mGroupId+ "/"+userId, null);
-                                childUpdates.put("/userGroups/"+userId+"/requests/"+mGroupId,null);
+                (position, tag) -> {
+                    User user = mUserRequests.get(position);
+                    String userId = user.getId();
+                    Map<String, Object> childUpdates;
+                    switch(tag){
+                        case "delete":
+                            CustomToast.customToast(GroupSettingsActivity.this, R.string.delete, Toast.LENGTH_SHORT).show();
+                            childUpdates = new HashMap<>();
+                            childUpdates.put("/requests/" + mGroupId+ "/"+userId, null);
+                            childUpdates.put("/userGroups/"+userId+"/requests/"+mGroupId,null);
 
-                                mFireBaseDatabase.getReference().updateChildren(childUpdates);
-                                break;
-                            case "admin":
-                                CustomToast.customToast(GroupSettingsActivity.this, "admin", Toast.LENGTH_SHORT).show();
-                                break;
+                            mFireBaseDatabase.getReference().updateChildren(childUpdates);
+                            break;
+                        case "admin":
+                            CustomToast.customToast(GroupSettingsActivity.this, "admin", Toast.LENGTH_SHORT).show();
+                            break;
 
-                            case "confirm":
-                                //the admin confirm the user request and authorizes access to the group
-                                childUpdates = new HashMap<>();
-                                childUpdates.put("/requests/" + mGroupId+"/"+userId, null);
-                                childUpdates.put("/usersGroup/" + mGroupId+ "/"+userId, user);
-                                childUpdates.put("/userGroups/"+userId+"/member/"+mGroupId,true);
+                        case "confirm":
+                            //the admin confirm the user request and authorizes access to the group
+                            childUpdates = new HashMap<>();
+                            childUpdates.put("/requests/" + mGroupId+"/"+userId, null);
+                            childUpdates.put("/usersGroup/" + mGroupId+ "/"+userId, user);
+                            childUpdates.put("/userGroups/"+userId+"/member/"+mGroupId,true);
 
-                                mFireBaseDatabase.getReference().updateChildren(childUpdates, new DatabaseReference.CompletionListener() {
-                                    @Override
-                                    public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                                        if(error!=null){
-                                            CustomToast.customToast(GroupSettingsActivity.this,
-                                                    R.string.error_occurred,
-                                                    Toast.LENGTH_SHORT).show();
-                                            Log.e("error","click change to user : "+error.toString());
-                                        }
-                                    }
-                                });
-                                break;
-                            default:
-                             //   Toast.makeText(GroupSettingsActivity.this, "default", Toast.LENGTH_SHORT).show();
-                        }
+                            mFireBaseDatabase.getReference().updateChildren(childUpdates, (error, ref) -> {
+                                if(error!=null){
+                                    CustomToast.customToast(GroupSettingsActivity.this,
+                                            R.string.error_occurred,
+                                            Toast.LENGTH_SHORT).show();
+                                    Log.e("error","click change to user : "+error.toString());
+                                }
+                            });
+                            break;
+                        default:
+                         //   Toast.makeText(GroupSettingsActivity.this, "default", Toast.LENGTH_SHORT).show();
                     }
                 }
                 , this, UserGroupSettingsAdapter.MODE_REQUESTS);
@@ -191,31 +182,28 @@ public class GroupSettingsActivity extends AppCompatActivity  {
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         binding.recyclerCurrentUsers.setLayoutManager(linearLayoutManager2);
         mCurrentUsersAdapter = new UserGroupSettingsAdapter(
-                new UserGroupSettingsAdapter.UserListRecyclerviewClickInterface() {
-                    @Override
-                    public void onItemClicked(int position, String tag) {
-                        switch(tag){
-                            case "delete":
-                                //delete the user from the group
-                                CustomToast.customToast(GroupSettingsActivity.this, R.string.delete, Toast.LENGTH_SHORT).show();
+                (position, tag) -> {
+                    switch(tag){
+                        case "delete":
+                            //delete the user from the group
+                            CustomToast.customToast(GroupSettingsActivity.this, R.string.delete, Toast.LENGTH_SHORT).show();
 
-                                String userId = mCurrentUsers.get(position).getId();
-                                Map<String, Object> childUpdates = new HashMap<>();
-                                childUpdates.put("/usersGroup/" + mGroupId+ "/"+userId, null);
-                                childUpdates.put("/userGroups/"+userId+"/member/"+mGroupId,null);
+                            String userId = mCurrentUsers.get(position).getId();
+                            Map<String, Object> childUpdates = new HashMap<>();
+                            childUpdates.put("/usersGroup/" + mGroupId+ "/"+userId, null);
+                            childUpdates.put("/userGroups/"+userId+"/member/"+mGroupId,null);
 
-                                mFireBaseDatabase.getReference().updateChildren(childUpdates);
-                                break;
-                            case "admin":
-                                  CustomToast.customToast(GroupSettingsActivity.this, "admin", Toast.LENGTH_SHORT).show();
-                                break;
+                            mFireBaseDatabase.getReference().updateChildren(childUpdates);
+                            break;
+                        case "admin":
+                              CustomToast.customToast(GroupSettingsActivity.this, "admin", Toast.LENGTH_SHORT).show();
+                            break;
 
-                            case "confirm":
-                              //  CustomToast.customToast(GroupSettingsActivity.this, "confirm", Toast.LENGTH_SHORT).show();
-                                break;
-                            default:
-                             //   CustomToast.customToast(GroupSettingsActivity.this, "default", Toast.LENGTH_SHORT).show();
-                        }
+                        case "confirm":
+                          //  CustomToast.customToast(GroupSettingsActivity.this, "confirm", Toast.LENGTH_SHORT).show();
+                            break;
+                        default:
+                         //   CustomToast.customToast(GroupSettingsActivity.this, "default", Toast.LENGTH_SHORT).show();
                     }
                 }
                 , this, UserGroupSettingsAdapter.MODE_ACTUAL);
@@ -224,70 +212,52 @@ public class GroupSettingsActivity extends AppCompatActivity  {
         mCurrentUsersAdapter.setAdminId(mAdminId);
 
         //if the delete group button is pressed
-        binding.bDeleteGroup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        binding.bDeleteGroup.setOnClickListener(v -> {
 
-                //alert dialog asking to confirm the delete action
-                AlertDialog.Builder builder = new AlertDialog.Builder(GroupSettingsActivity.this, R.style.AlertDialogStyle);
-                builder.setMessage(R.string.are_sure_delete_group)
-                        .setPositiveButton(R.string.yes,
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        //delete all the group data
-                                        Map<String, Object> childUpdates = new HashMap<>();
-                                        childUpdates.put("/groups/" + mGroupId, null);
-                                        childUpdates.put("/usersGroup/" + mGroupId, null);
-                                        childUpdates.put("/tasks/" + mGroupId, null);
-                                        childUpdates.put("/requests/"+ mGroupId, null);
-                                        if(mCurrentUsers!=null){
-                                            for(User user : mCurrentUsers){
-                                                childUpdates.put("/userGroups/"+user.getId()+"/member/"+mGroupId,null);
-                                            }
-                                        }
-
-                                        if(mUserRequests!=null){
-                                            for(User user : mUserRequests){
-                                                childUpdates.put("/userGroups/"+user.getId()+"/requests/"+mGroupId,null);
-                                            }
-                                        }
-                                        //TODO delete files
-
-                                        mFireBaseDatabase.getReference().updateChildren( childUpdates,
-                                                new DatabaseReference.CompletionListener() {
-                                                    @Override
-                                                    public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                                                        if(error!=null){
-                                                            CustomToast.customToast(GroupSettingsActivity.this, R.string.error_occurred, Toast.LENGTH_SHORT).show();
-                                                        }   else{
-                                                            CustomToast.customToast(GroupSettingsActivity.this, R.string.group_deleted, Toast.LENGTH_SHORT).show();
-                                                            Intent resultInt = new Intent();
-                                                            resultInt.putExtra("Result", RESULT_GROUP_DELETED);
-                                                            setResult(RESULT_GROUP_DELETED,resultInt);
-                                                            finish();
-                                                        }
-                                                    }
-                                                });
+            //alert dialog asking to confirm the delete action
+            AlertDialog.Builder builder = new AlertDialog.Builder(GroupSettingsActivity.this, R.style.AlertDialogStyle);
+            builder.setMessage(R.string.are_sure_delete_group)
+                    .setPositiveButton(R.string.yes,
+                            (dialog, id) -> {
+                                //delete all the group data
+                                Map<String, Object> childUpdates = new HashMap<>();
+                                childUpdates.put("/groups/" + mGroupId, null);
+                                childUpdates.put("/usersGroup/" + mGroupId, null);
+                                childUpdates.put("/tasks/" + mGroupId, null);
+                                childUpdates.put("/requests/"+ mGroupId, null);
+                                if(mCurrentUsers!=null){
+                                    for(User user : mCurrentUsers){
+                                        childUpdates.put("/userGroups/"+user.getId()+"/member/"+mGroupId,null);
                                     }
-                                })
-                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                CustomToast.customToast(GroupSettingsActivity.this, R.string.canceled,Toast.LENGTH_SHORT).show();
+                                }
 
-                            }
-                        });
-                // Create the AlertDialog object and return it
-                builder.create().show();
+                                if(mUserRequests!=null){
+                                    for(User user : mUserRequests){
+                                        childUpdates.put("/userGroups/"+user.getId()+"/requests/"+mGroupId,null);
+                                    }
+                                }
 
-            }
+                                mFireBaseDatabase.getReference().updateChildren( childUpdates,
+                                        (error, ref) -> {
+                                            if(error!=null){
+                                                CustomToast.customToast(GroupSettingsActivity.this, R.string.error_occurred, Toast.LENGTH_SHORT).show();
+                                            }   else{
+                                                CustomToast.customToast(GroupSettingsActivity.this, R.string.group_deleted, Toast.LENGTH_SHORT).show();
+                                                Intent resultInt = new Intent();
+                                                resultInt.putExtra("Result", RESULT_GROUP_DELETED);
+                                                setResult(RESULT_GROUP_DELETED,resultInt);
+                                                finish();
+                                            }
+                                        });
+                            })
+                    .setNegativeButton(R.string.cancel,
+                            (dialog, id) -> CustomToast.customToast(GroupSettingsActivity.this, R.string.canceled,Toast.LENGTH_SHORT).show());
+            // Create the AlertDialog object and return it
+            builder.create().show();
+
         });
 
-        binding.bReturn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        binding.bReturn.setOnClickListener(v -> finish());
 
     }
 

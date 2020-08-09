@@ -80,6 +80,7 @@ public class GroupsActivity extends AppCompatActivity implements GroupAdapter.Gr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setTheme(R.style.AppTheme);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_groups);
 
         mGroups = new ArrayList<Group>();
@@ -96,16 +97,21 @@ public class GroupsActivity extends AppCompatActivity implements GroupAdapter.Gr
         mConnectedListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                boolean connected = snapshot.getValue(Boolean.class);
-                if (connected) {
-                    Log.d(TAG, "connected");
-                    binding.tvLostConnection.setVisibility(View.INVISIBLE);
+                try{
+                    boolean connected = snapshot.getValue(Boolean.class);
+                    if (connected) {
+                        Log.d(TAG, "connected");
+                        binding.tvLostConnection.setVisibility(View.INVISIBLE);
 
-                } else {
-                    Log.d(TAG, "not connected");
-                    binding.tvLostConnection.setVisibility(View.VISIBLE);
+                    } else {
+                        Log.d(TAG, "not connected");
+                        binding.tvLostConnection.setVisibility(View.VISIBLE);
+                    }
+                    mIsConnected = connected;
+                }   catch (NullPointerException e){
+
                 }
-                mIsConnected = connected;
+
             }
 
             @Override
@@ -114,17 +120,14 @@ public class GroupsActivity extends AppCompatActivity implements GroupAdapter.Gr
             }
         };
 
-        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    //user is signed in
-                    onSignedInInitialize();
-                } else {
-                    //create the Firebase sign in UI and start the activity for result
-                    startFirebaseSignInActivity();
-                }
+        mAuthStateListener = firebaseAuth -> {
+            FirebaseUser user = firebaseAuth.getCurrentUser();
+            if (user != null) {
+                //user is signed in
+                onSignedInInitialize();
+            } else {
+                //create the Firebase sign in UI and start the activity for result
+                startFirebaseSignInActivity();
             }
         };
 
@@ -138,13 +141,10 @@ public class GroupsActivity extends AppCompatActivity implements GroupAdapter.Gr
         mGroupAdapter.setGroupsData(mGroups);
 
         //if we click in the fab, start the activity to create a new group
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        binding.fab.setOnClickListener(v ->   {
                 Intent intent = new Intent(GroupsActivity.this, NewGroupActivity.class);
                 startActivityForResult(intent, RC_REGULAR_FLOW);
-            }
-        });
+            } );
 
     }
 
@@ -298,21 +298,14 @@ public class GroupsActivity extends AppCompatActivity implements GroupAdapter.Gr
                     userNew.setId(Objects.requireNonNull(mFirebaseAuth.getUid()));
                     userNew.setName(Objects.requireNonNull(mFirebaseAuth.getCurrentUser()).getDisplayName());
                     mUser = userNew;
-                    mUserDatabaseReference.getRef().setValue(mUser, new DatabaseReference.CompletionListener() {
-                        @Override
-                        public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                            if(error!=null){
-                                AlertDialog.Builder builder = new AlertDialog.Builder(GroupsActivity.this, R.style.AlertDialogStyle);
-                                builder.setMessage(R.string.error_occurred)
-                                        .setPositiveButton(R.string.ok,
-                                                new DialogInterface.OnClickListener() {
-                                                    public void onClick(DialogInterface dialog, int id) {
-                                                    finish();
-                                                    }
-                                                }).show();
-                            }   else{
-                                CustomToast.customToast(GroupsActivity.this, R.string.user_created, Toast.LENGTH_SHORT).show();
-                            }
+                    mUserDatabaseReference.getRef().setValue(mUser, (error, ref) -> {
+                        if(error!=null){
+                            AlertDialog.Builder builder = new AlertDialog.Builder(GroupsActivity.this, R.style.AlertDialogStyle);
+                            builder.setMessage(R.string.error_occurred)
+                                    .setPositiveButton(R.string.ok,
+                                            (dialog, id) -> finish()).show();
+                        }   else{
+                            CustomToast.customToast(GroupsActivity.this, R.string.user_created, Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -373,7 +366,7 @@ public class GroupsActivity extends AppCompatActivity implements GroupAdapter.Gr
     @Override
     public void onClick(Group groupClicked, View view) {
         String groupId = groupClicked.getId();
-        String myId = mFirebaseAuth.getUid().toString();
+        String myId = mFirebaseAuth.getUid();
 
         //first check if the users is in the users list of the group
         DatabaseReference mUsersGroupDatabaseReference = mFireBaseDatabase.getReference().child("usersGroup")

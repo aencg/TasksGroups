@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.tasksgroups" >
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -9,14 +10,15 @@
 
     <application
         android:allowBackup="true"
+        android:grantUriPermissions="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:requestLegacyExternalStorage="true"
-        android:grantUriPermissions="true"
-        >
+        tools:targetApi="q">
 
 
 
@@ -54,7 +56,8 @@
         <activity
             android:name=".ui.activities.UpdateTaskActivity"
             android:windowSoftInputMode="adjustNothing" />
-        <activity android:name=".ui.activities.GroupsActivity" >
+        <activity android:name=".ui.activities.GroupsActivity"
+            android:theme="@style/splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

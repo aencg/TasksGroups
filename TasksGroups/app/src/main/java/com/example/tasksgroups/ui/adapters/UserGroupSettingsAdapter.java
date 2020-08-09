@@ -95,10 +95,10 @@ public class UserGroupSettingsAdapter extends RecyclerView.Adapter<UserGroupSett
         public UserAdapterViewHolder(View view) {
             super(view);
             view.setTag("holder");
-            mTvUserName = (TextView) view.findViewById(R.id.tv_user_name);
-            mIvAdmin = (ImageView) view.findViewById(R.id.iv_admin);
-            mIvDelete = (ImageView) view.findViewById(R.id.iv_delete);
-            mIvConfirm = (ImageView) view.findViewById(R.id.iv_confirm);
+            mTvUserName = view.findViewById(R.id.tv_user_name);
+            mIvAdmin = view.findViewById(R.id.iv_admin);
+            mIvDelete = view.findViewById(R.id.iv_delete);
+            mIvConfirm = view.findViewById(R.id.iv_confirm);
             mTvUserName.setTag("userName");
             mIvAdmin.setTag("admin");
             mIvDelete.setTag("delete");
@@ -181,8 +181,6 @@ public class UserGroupSettingsAdapter extends RecyclerView.Adapter<UserGroupSett
         }
 
         userAdapterViewHolder.mTvUserName.setText(user.getName());
-        //TODO change adapter admin buttons
-       // userAdapterViewHolder.mIvUserImage.set;);
     }
 
     /**
